@@ -9,7 +9,7 @@ export class TheLoaiRepository extends DefaultCrudRepository<
   TheLoaiRelations
 > {
   constructor(
-    @inject('datasources.db') dataSource: MongoDataSource,
+    @inject('datasources.Mongo') dataSource: MongoDataSource,
   ) {
     super(TheLoai, dataSource);
   }
