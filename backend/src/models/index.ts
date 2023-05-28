@@ -3,3 +3,4 @@ export * from './sach.model';
 export * from './tac-gia.model';
 export * from './bo-sach.model';
 export * from './ma-dat-truoc.model';
+export * from './the-loai.model';
