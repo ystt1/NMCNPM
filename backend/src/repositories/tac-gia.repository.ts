@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {DbDataSource} from '../datasources';
+import {MongoDataSource} from '../datasources';
 import {TacGia, TacGiaRelations} from '../models';
 
 export class TacGiaRepository extends DefaultCrudRepository<
@@ -9,7 +9,7 @@ export class TacGiaRepository extends DefaultCrudRepository<
   TacGiaRelations
 > {
   constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
+    @inject('datasources.db') dataSource: MongoDataSource,
   ) {
     super(TacGia, dataSource);
   }

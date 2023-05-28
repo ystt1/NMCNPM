@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {DbDataSource} from '../datasources';
+import {MongoDataSource} from '../datasources';
 import {TheLoai, TheLoaiRelations} from '../models';
 
 export class TheLoaiRepository extends DefaultCrudRepository<
@@ -9,7 +9,7 @@ export class TheLoaiRepository extends DefaultCrudRepository<
   TheLoaiRelations
 > {
   constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
+    @inject('datasources.db') dataSource: MongoDataSource,
   ) {
     super(TheLoai, dataSource);
   }

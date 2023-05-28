@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {DbDataSource} from '../datasources';
+import {MongoDataSource} from '../datasources';
 import {BoSach, BoSachRelations} from '../models';
 
 export class BoSachRepository extends DefaultCrudRepository<
@@ -9,7 +9,7 @@ export class BoSachRepository extends DefaultCrudRepository<
   BoSachRelations
 > {
   constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
+    @inject('datasources.db') dataSource: MongoDataSource,
   ) {
     super(BoSach, dataSource);
   }

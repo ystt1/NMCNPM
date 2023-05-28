@@ -1,6 +1,6 @@
 import {inject} from '@loopback/core';
 import {DefaultCrudRepository} from '@loopback/repository';
-import {DbDataSource} from '../datasources';
+import {MongoDataSource} from '../datasources';
 import {NguoiDung, NguoiDungRelations} from '../models';
 
 export class NguoiDungRepository extends DefaultCrudRepository<
@@ -9,7 +9,7 @@ export class NguoiDungRepository extends DefaultCrudRepository<
   NguoiDungRelations
 > {
   constructor(
-    @inject('datasources.db') dataSource: DbDataSource,
+    @inject('datasources.db') dataSource: MongoDataSource,
   ) {
     super(NguoiDung, dataSource);
   }
