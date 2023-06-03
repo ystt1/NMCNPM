@@ -1,0 +1,67 @@
+.content
+{
+    --ion-background-color: rgba(255, 221, 221, 1);
+    width: 1350px;
+}
+.listRand
+{
+
+  --ion-background-color: rgb(252, 252, 252);
+border: 1px solid #FFFFFF;
+border-radius: 30px;
+width:1230px;
+height: fit-content;
+left: 46px;
+top: 156px;
+}
+
+.image
+{
+    width: 90px;
+    height: 120px;
+}
+
+.card
+{
+    background-color: #FFFFFF;
+    width: 400px;
+    height: 280px;
+}
+
+.MoTa
+{
+    display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.MoTa2
+{
+    display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.sachyeuthich
+{
+  border-left: 2px solid #5d5c5c;
+  #header{
+    font-size: large;
+    font-weight: bold;
+    align-content: center;
+  }
+}
+
+
+.HotandNew
+{
+  width:1230px;
+height: fit-content;
+left: 46px;
+top: 156px;
+}
