@@ -64,9 +64,14 @@ export class Sach extends Entity {
 
   @property({
     type: 'string',
-    required: true,
   })
-  idBoSach: string;
+  idBoSach?: string;
+
+  @property({
+    type: 'number',
+    default: 0,
+  })
+  LuotThich?: number;
 
 
   constructor(data?: Partial<Sach>) {
