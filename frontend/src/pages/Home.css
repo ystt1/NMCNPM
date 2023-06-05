@@ -33,6 +33,7 @@ top: 156px;
     display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 7;
+
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -42,6 +43,7 @@ top: 156px;
     display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 7;
+
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -53,15 +55,68 @@ top: 156px;
   #header{
     font-size: large;
     font-weight: bold;
-    align-content: center;
+    text-align: center;
+  }
+  #label{
+    width: 100%;
+    max-width: 100px;
+    white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   }
 }
 
 
+
+
 .HotandNew
 {
-  width:1230px;
+  padding-top: 30px;
+padding-left: 0px;
+border-radius: 30px;
+width:1330px;
 height: fit-content;
-left: 46px;
+left: 0px;
 top: 156px;
+
+#label
+{
+  text-align: center;
+}
+
+#card{
+  
+  background-color: #FFFFFF;
+    height: 280px;
+    
+}
+
+#image
+{
+  height: 120px;
+}
+
+#MoTa
+{
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#grid
+{
+  background-color: #FFFFFF;
+  border: 1px solid #FFFFFF;
+border-radius: 30px;
+left: 0px;
+}
+
+#icon
+{
+  display: flex;
+  align-items: center;
+  
+}
 }

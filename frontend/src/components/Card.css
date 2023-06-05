@@ -1,0 +1,20 @@
+.card
+{
+    background-color: #FFFFFF;
+    height: 280px;
+
+  #image
+  {
+    height: 120px;
+  }
+  
+  #MoTa
+  {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+    overflow: clip;
+    text-overflow: ellipsis;
+  }
+
+}

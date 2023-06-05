@@ -22,6 +22,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import Detail from './pages/Detail';
 
 setupIonicReact();
 
@@ -35,6 +36,7 @@ const App: React.FC = () => (
         <Route exact path="/">
           <Redirect to="/trang-chu" />
         </Route>
+        <Route path="/sach/:slug" component={Detail} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
