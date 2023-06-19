@@ -23,6 +23,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import Detail from './pages/Detail';
+import SearchPage from './pages/Search';
 
 setupIonicReact();
 
@@ -37,6 +38,7 @@ const App: React.FC = () => (
           <Redirect to="/trang-chu" />
         </Route>
         <Route path="/sach/:slug" component={Detail} />
+        <Route path="/tim-kiem/:search/:pageNumber" component={SearchPage} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

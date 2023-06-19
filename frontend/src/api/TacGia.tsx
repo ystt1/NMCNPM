@@ -24,11 +24,23 @@ export const authorApi=()=>{
         return resul;
     }
 
-    
+    const getAuthorLike=async(key:string)=>{
+        const resul=await api.get(`?filter={"where": { "Ten":{"like":"${key}","options":"i"}}}`)
+        
+        .then(res=>{         
+            return res;
+        })
+        .catch(error=>{
+            
+            return error;
+        })
+        
+        return resul;
+    }
 
 
     return {
-        getAuthor,getAthorWithId
+        getAuthor,getAthorWithId,getAuthorLike
     }
 }
 export default authorApi;
