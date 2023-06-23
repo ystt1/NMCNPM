@@ -79,7 +79,7 @@ export const bookApi = () => {
     }
 
 
-    const searchingBook = async (search: string, pageNumber: string) => {
+    const searchingBook = async (search: string, pageNumber: string,sort:number) => {
 
         //tim author
         let page = 1;
@@ -87,14 +87,45 @@ export const bookApi = () => {
             page = Number(pageNumber)
         }
         const ans: any = await getAuthorLike(search);
-
+        let order='';
+        if(sort!=0)
+        {
+            order="\"order\" :"
+            switch(sort){
+                case(1):{
+                    order+="\"LuotThich DESC\""
+                    break;
+                }
+                case(-1):{
+                    order+="\"LuotThich ASC\""
+                    break;
+                }
+                case(2):{
+                    order+="\"LuotThue DESC\""
+                    break;
+                }
+                case(-2):{
+                    order+="\"LuotThue ASC\""
+                    break;
+                }
+                case(3):{
+                    order+="\"NgayPhatHanh DESC\""
+                    break;
+                }
+                case(-3):{
+                    order+="\"NgayPhatHanh ASC\""
+                    break;
+                }
+            }
+            order+=",";
+        }
         const idTacGia: string[] = []
         if (ans.data) {
             ans.data.map((item: any) => {
                 idTacGia.push(item.id)
             })
         }
-        const response = await api.get(`?filter={"limit": 4,"skip": ${(page - 1) * 4}, "where": {"or":[ {"Ten":{"like": "${search}","options":"i"}}, {"idTacGia":{"inq": ${JSON.stringify(idTacGia)}}} ] } }`)
+        const response = await api.get(`?filter={"limit": 4,${order}"skip": ${(page - 1) * 4}, "where": {"or":[ {"Ten":{"like": "${search}","options":"i"}}, {"idTacGia":{"inq": ${JSON.stringify(idTacGia)}}} ] } }`)
             .then(res => {
                 return res
             })
@@ -122,17 +153,49 @@ export const bookApi = () => {
         return response;
     }
 
-    const searchingBookWithAuthorSlug = async (slugTacGia: string, pageNumber: string) => {
+    const searchingBookWithAuthorSlug = async (slugTacGia: string, pageNumber: string,sort:number) => {
 
         //tim author
         let page = 1;
         if (Number(pageNumber)) {
             page = Number(pageNumber)
         }
+        let order='';
+        if(sort!=0)
+        {
+            order="\"order\" :"
+            switch(sort){
+                case(1):{
+                    order+="\"LuotThich DESC\""
+                    break;
+                }
+                case(-1):{
+                    order+="\"LuotThich ASC\""
+                    break;
+                }
+                case(2):{
+                    order+="\"LuotThue DESC\""
+                    break;
+                }
+                case(-2):{
+                    order+="\"LuotThue ASC\""
+                    break;
+                }
+                case(3):{
+                    order+="\"NgayPhatHanh DESC\""
+                    break;
+                }
+                case(-3):{
+                    order+="\"NgayPhatHanh ASC\""
+                    break;
+                }
+            }
+            order+=",";
+        }
         const ans: any = await getAuthorWithSlug(slugTacGia);  
         if(ans.data)
         {    
-        const response = await api.get(`?filter={"limit": 4,"skip": ${(page-1)*4}, "where": {"idTacGia":"${ans.data[0].id}"} } `)
+        const response = await api.get(`?filter={"limit": 4,${order}"skip": ${(page-1)*4}, "where": {"idTacGia":"${ans.data[0].id}"} } `)
             .then(res => {
                 return res
             })

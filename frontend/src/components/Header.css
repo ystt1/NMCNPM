@@ -1,35 +1,46 @@
 .header{
     position: absolute;
 width: 1440px;
-height: 110px;
+height: 90px;
 left: 0px;
 top: 0px;
 
 background: #FFFFFF;
+
+
+#logo{
+    height: 90px;
+    top:0;
+    left:0;
+}
+#icon{
+    width: 120px;
+height: 78px;
+
 }
 
-.icon{
-    width: 150px;
-height: 100px;
-left: -28px;
-top: -8px;
-}
-
-.label
+#label
 {
-    margin-top: 40px;
+    margin-top: 30px;
     margin-bottom: 47px;
 }
 
-.searchbar
+#searchbar
 {
-    margin-top: 20px;
+    margin-top: 11px;
     
 }
-.iconAvatar{
-    margin-left: 50px;
-    width: 150px;
-height: 100px;
-left: -28px;
-top: -8px;
+
+#person{
+    margin-left: 100px;
+    width: 50px;
+
+
 }
+}
+
+
+
+
+
+

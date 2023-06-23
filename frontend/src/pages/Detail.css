@@ -1,10 +1,11 @@
  .content{
-    --ion-background-color:#FDF7F7;
+    --ion-background-color:#c0bdf3;
     width: 1350px;
+  
 }
 
 .item-content{
-background-color: #FFFFFF;
+  --ion-background-color: #FFFFFF;
 border: 1px solid #FFFFFF;
 border-radius: 20px;
 width: 1080px;
@@ -12,14 +13,15 @@ height: fit-content;
 left: 120px;
 top: 150px;
 
-
 #col1{
-    border: 1px solid black;
+   
+    border-radius: 15px;
 }
 
 #itemImg
 {
-    height: 180px;
+  margin-top: 20px;
+    height: 200px;
 }
 
 #label{
@@ -31,10 +33,25 @@ top: 150px;
 {
     white-space: pre-wrap;
     word-wrap: break-all;
+    font-size: larger;
+    align-content: center;
 }
 
 #img{
     height: 100px;
+}
+
+#TheLoai{
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+#dattruoc{
+  margin-top: 20px;
+}
+
+#thichthue{
+  border-top: 20px;
 }
 } 
 
@@ -72,7 +89,7 @@ top: 156px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
-  overflow: hidden;
+  overflow: auto;
   text-overflow: ellipsis;
 }
 

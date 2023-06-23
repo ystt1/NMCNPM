@@ -1,11 +1,11 @@
-import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import {bookApi} from '../api/Sach'
 import {authorApi} from '../api/TacGia'
 import HeaderComp from '../components/Header';
 import './Detail.css'
-import { arrowBackCircleOutline } from 'ionicons/icons';
+import { arrowBackCircleOutline, cart, heartOutline } from 'ionicons/icons';
 import { v4 } from 'uuid';
 
 const Detail: React.FC = () => {
@@ -72,17 +72,6 @@ const Detail: React.FC = () => {
         )
     }
 
-  
-
-   
-    
-  const handleOnclickAuthor=()=>{
-    if(bookFound.TacGia && bookFound.slugTacGia)
-    { 
-      history.push(`tac-gia/${bookFound.slugTacGia}/${pageNumber}`)
-    }
-  }
-
     return (
         <IonPage>
             <HeaderComp/>
@@ -93,55 +82,64 @@ const Detail: React.FC = () => {
                         <IonCol size='7.5' id='col1'>
                             <IonGrid>
                             <IonRow>
-                                <IonCol size='3' id='col1'>
-                                    <IonItem id='itemImg'>
-                                    {bigImage(url)}
+                                <IonCol size='3.5' id='col1'>
+                                    <IonItem >
+                                    <img id='itemImg' alt="Silhouette of mountains" src={url} />
                                     </IonItem>
                                 </IonCol>
                                 <IonCol>
                                     <IonLabel id='labelName'>
                                     {bookFound.Ten||"Tên sách"}
                                     </IonLabel>
-
+                                      <IonRow><IonCol>
                                     {(bookFound.TacGia&&bookFound.slugTacGia&&
                                     (
-                                        <IonItem routerLink={`/tac-gia/${bookFound.slugTacGia}/${pageNumber}`}>
-                                          <IonLabel>
-                                          {bookFound.TacGia}
-                                          </IonLabel>
+                                      
+                                        <IonItem lines='none' routerLink={`/tac-gia/${bookFound.slugTacGia}/${pageNumber}`}>                
+                                        Tác giả: {bookFound.TacGia}
                                     </IonItem>
-                                    )) || (<IonLabel>
+                                    
+                                    )) || (
+                                      <IonItem lines='none'>
                                     Không rõ
-                              </IonLabel>)}
+                                    </IonItem>
+                             )}
+                              </IonCol>
+                              <IonCol>
+                                <IonItem lines='none'>
+                                Còn lại:{bookFound.SoLuong}
+                                </IonItem>
+                              </IonCol>
+                              </IonRow>
                                     
                                
                                     <IonLabel>
-                                    {bookFound.Gia||"Giá"}
+                                    Giá thuê: {bookFound.Gia||"chưa rõ"}
                                     </IonLabel>
-                                    <IonLabel>
+                                    <IonLabel id='TheLoai'>
                                     Thể Loại:
                                     </IonLabel>
-                                    <IonItem>
+                                    <IonItem lines='none'>
                                         {bookFound.Anh&&bookFound.Anh.map((item:any)=>{
                                             return(
-                                                <img id='img' key={item} src={item} onClick={()=>{setUrl(item)}} ></img>
+                                                <img style={{marginRight:10}} id='img' key={item} src={item} onClick={()=>{setUrl(item)}} ></img>
                                             )
                                         })}
                                     </IonItem>
                                 </IonCol>
                             </IonRow>
-                            <IonRow>
-                                <IonCol><IonButton color='success'>Đặt trước</IonButton></IonCol>
-                                <IonCol>Lượt thích</IonCol>
-                                <IonCol>Lượt Thuê: {bookFound.LuotThue}</IonCol>
+                            <IonRow id='dattruoc'>
+                                <IonCol><IonButton size='large' color='success'>Đặt trước</IonButton></IonCol>
+                                <IonCol id='thichthue'><IonItem lines='none'><IonIcon slot='start' icon={heartOutline} /><IonLabel>Lượt thích:{bookFound.LuotThich}</IonLabel></IonItem></IonCol>
+                                <IonCol id='thichthue'><IonItem lines='none'><IonIcon slot='start' icon={cart} /><IonLabel>Lượt thuê:{bookFound.LuotThue}</IonLabel></IonItem></IonCol>
                             </IonRow>
                             </IonGrid>
                         </IonCol >
                         <IonCol>
-                           <h1>Mô tả</h1>
-                            <IonLabel id='label' className='wrap'>  
+                           <h1 style={{marginTop:10 }}>Mô tả</h1>
+                            <IonText id='label' className='wrap'>  
                             {bookFound.MoTa||"Mô tả"}                    
-                            </IonLabel>
+                            </IonText>
                         </IonCol>
                     </IonRow>
                 </IonGrid>
