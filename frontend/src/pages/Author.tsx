@@ -4,16 +4,15 @@ import { useParams } from 'react-router';
 import { bookApi } from '../api/Sach'
 import { v4 } from 'uuid'
 import authorApi from '../api/TacGia';
-import './Search.css'
 import CardSearch from '../components/CardInSearch';
 import HeaderComp from '../components/Header';
 
-const SearchPage: React.FC = () => {
-    const { search } = useParams<{ search: string }>();
+const Author: React.FC = () => {
+    const { slugTacGia } = useParams<{ slugTacGia: string }>();
     const { pageNumber } = useParams<{ pageNumber: string }>();
     const currentNumber=Number(pageNumber)||1;
-    const { searchingBook,getLength} = bookApi();
-    const { getAthorWithId } = authorApi()
+    const { getLengthWithAuthor,searchingBookWithAuthorSlug} = bookApi();
+    const { getAthorWithId,getAuthorWithSlug } = authorApi()
     const [searchBook, setSearchBook] = useState<any>([{}]);
     const [totalPage,setTotalPage]=useState(0);
     useEffect(() => {
@@ -32,11 +31,13 @@ const SearchPage: React.FC = () => {
     }, [searchBook])
 
     const getTotalPage=async()=>{
-        const res=await getLength(search);
+        const res=await getLengthWithAuthor(slugTacGia);
         let flag=1;
         flag=Number(Math.ceil(res.data.count/4));    
         setTotalPage(flag)
     }
+
+
 
     const pages = []
     const start = Math.max(1, currentNumber - 2);
@@ -62,23 +63,24 @@ const SearchPage: React.FC = () => {
     }
   
     const getBooks = async () => {
-        const res: any = await searchingBook(search,pageNumber);
+        const res: any = await searchingBookWithAuthorSlug(slugTacGia,pageNumber);
         const flag:any[]=[]
+        const author=await getAuthorWithSlug(slugTacGia)        
         if (res.data) {
             flag.push([...res.data]);
             const updatedBooks = await Promise.all(
               flag[0].map(async (item: any) => {
-                const author = await getAthorWithId(item.idTacGia);
-    
-                
                 if (author) {
-                  item.TacGia = author.data.Ten;
+                  item.TacGia = author.data[0].Ten;
+                }
+                else{
+                    item.TacGia="không rõ"
                 }
                 return item;
               })
             );
             setSearchBook([...updatedBooks]);
-          }
+        }
     }
 
 
@@ -97,18 +99,18 @@ const SearchPage: React.FC = () => {
                 })}
                 <IonGrid >
                 <IonButton  disabled={1 === currentNumber}
-                routerLink={`/tim-kiem/${search}/${currentNumber-1}`}>{"<"}</IonButton>  
+                routerLink={`/tac-gia/${slugTacGia}/${currentNumber-1}`}>{"<"}</IonButton>  
                 {pages.map((page, index) => (
         <IonButton
           key={index}
           disabled={page === currentNumber || page === '...'}
-                    routerLink={`/tim-kiem/${search}/${page}`}
+                    routerLink={`/tac-gia/${slugTacGia}/${page}`}
         >
           {page}
         </IonButton>
       ))}
-      <IonButton  disabled={totalPage === currentNumber}
-      routerLink={`/tim-kiem/${search}/${currentNumber+1}`}
+      <IonButton  disabled={totalPage === currentNumber }
+      routerLink={`/tac-gia/${slugTacGia}/${currentNumber+1}`}
       >{">"}</IonButton> 
     </IonGrid>
             </IonContent>
@@ -116,4 +118,4 @@ const SearchPage: React.FC = () => {
     );
 };
 
-export default SearchPage;
+export default Author;

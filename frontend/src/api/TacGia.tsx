@@ -39,8 +39,27 @@ export const authorApi=()=>{
     }
 
 
+    const getAuthorWithSlug=async(slug:string)=>{
+        const resul=await api.get(`?filter={
+            "where": {
+              "slug":"${slug}"
+            }
+          }`)
+        
+        .then(res=>{         
+            return res;
+        })
+        .catch(error=>{
+            
+            return error;
+        })
+        
+        return resul;
+    }
+
+
     return {
-        getAuthor,getAthorWithId,getAuthorLike
+        getAuthor,getAthorWithId,getAuthorLike,getAuthorWithSlug
     }
 }
 export default authorApi;

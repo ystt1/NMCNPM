@@ -4,21 +4,32 @@ import { useEffect, useState } from 'react';
 import { authorApi } from "./TacGia";
 
 export const bookApi = () => {
-     const { getAuthorLike } = authorApi()
+    const { getAuthorLike, getAuthorWithSlug } = authorApi()
     const api = axios.create({
         baseURL: 'http://localhost:3000/saches'
     })
 
-   
-   
+
+
     const getBooks = async (): Promise<any> => {
         const result = await api.get('/')
-        .then(res=>{
-            return res;
-        })
-        .catch(error=>{
-            return error;
-        })
+            .then(res => {
+                return res;
+            })
+            .catch(error => {
+                return error;
+            })
+        return result;
+    }
+
+    const uploadBook = async (book: any): Promise<any> => {
+        const result = await api.post('/', book)
+            .then(res => {
+                return res;
+            })
+            .catch(error => {
+                return error;
+            })
         return result;
     }
 
@@ -68,59 +79,88 @@ export const bookApi = () => {
     }
 
 
-    const searchingBook = async (search: string,pageNumber:string) => {
+    const searchingBook = async (search: string, pageNumber: string) => {
 
         //tim author
-        let page=1;
-        if(Number(pageNumber))
-        {
-            page=Number(pageNumber)
+        let page = 1;
+        if (Number(pageNumber)) {
+            page = Number(pageNumber)
         }
-        
         const ans: any = await getAuthorLike(search);
 
-        
-        const idTacGia:string[]=[]
+        const idTacGia: string[] = []
         if (ans.data) {
-            ans.data.map((item:any)=>{               
+            ans.data.map((item: any) => {
                 idTacGia.push(item.id)
             })
         }
-    
-
-        const response = await api.get(`?filter={"limit": 4,"skip": ${(page-1)*4}, "where": {"or":[ {"Ten":{"like": "${search}","options":"i"}}, {"idTacGia":{"inq": ${JSON.stringify(idTacGia)}}} ] } }`)
-            .then(res=>{
+        const response = await api.get(`?filter={"limit": 4,"skip": ${(page - 1) * 4}, "where": {"or":[ {"Ten":{"like": "${search}","options":"i"}}, {"idTacGia":{"inq": ${JSON.stringify(idTacGia)}}} ] } }`)
+            .then(res => {
                 return res
             })
-            .catch(error=>{
+            .catch(error => {
                 return error
             })
-           
-            
-          return response;
+        return response;
     }
-    const getLength=async(search:string)=>{
-     
-        const ans: any = await getAuthorLike(search);
 
-        
-        const idTacGia:string[]=[]
+    const getLength = async (search: string) => {
+        const ans: any = await getAuthorLike(search);
+        const idTacGia: string[] = []
         if (ans.data) {
-            ans.data.map((item:any)=>{               
+            ans.data.map((item: any) => {
                 idTacGia.push(item.id)
             })
         }
-
         const response = await api.get(`/count?where= {"or":[ {"Ten":{"like": "${search}","options":"i"}}, {"idTacGia":{"inq": ${JSON.stringify(idTacGia)}}} ] } `)
-            .then(res=>{
+            .then(res => {
                 return res
             })
-            .catch(error=>{
+            .catch(error => {
                 return error
             })
-           
-            
-          return response;
+        return response;
+    }
+
+    const searchingBookWithAuthorSlug = async (slugTacGia: string, pageNumber: string) => {
+
+        //tim author
+        let page = 1;
+        if (Number(pageNumber)) {
+            page = Number(pageNumber)
+        }
+        const ans: any = await getAuthorWithSlug(slugTacGia);  
+        if(ans.data)
+        {    
+        const response = await api.get(`?filter={"limit": 4,"skip": ${(page-1)*4}, "where": {"idTacGia":"${ans.data[0].id}"} } `)
+            .then(res => {
+                return res
+            })
+            .catch(error => {
+                return error
+            })
+            return response;
+        }
+        
+    }
+
+
+    const getLengthWithAuthor = async (slugTacGia: string) => {
+
+        //tim author
+        const ans: any = await getAuthorWithSlug(slugTacGia);
+        
+        if (ans.data) {
+            const response = await api.get(`/count?where= { "idTacGia":"${ans.data[0].id}"} `)
+            .then(res => {
+                return res
+            })
+            .catch(error => {
+                return error
+            })
+        return response;
+        }
+       
     }
 
 
@@ -132,7 +172,10 @@ export const bookApi = () => {
         getBookssortByLuotThich,
         getBookWithSlug,
         searchingBook,
-        getLength
+        getLength,
+        uploadBook,
+        searchingBookWithAuthorSlug,
+        getLengthWithAuthor
     }
 }
 export default bookApi;

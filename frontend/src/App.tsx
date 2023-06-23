@@ -24,6 +24,8 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import Detail from './pages/Detail';
 import SearchPage from './pages/Search';
+import Admin from './pages/Admin';
+import Author from './pages/Author';
 
 setupIonicReact();
 
@@ -39,6 +41,8 @@ const App: React.FC = () => (
         </Route>
         <Route path="/sach/:slug" component={Detail} />
         <Route path="/tim-kiem/:search/:pageNumber" component={SearchPage} />
+        <Route path="/tac-gia/:slugTacGia/:pageNumber" component={Author} />
+        <Route path="/admin" component={Admin} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>

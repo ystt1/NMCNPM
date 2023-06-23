@@ -64,6 +64,11 @@ top: 156px;
   overflow: hidden;
   text-overflow: ellipsis;
   }
+  
+}
+
+ion-avatar {
+  --border-radius: 4px;
 }
 
 
@@ -87,7 +92,7 @@ top: 156px;
 #card{
   
   background-color: #FFFFFF;
-    height: 280px;
+    height: 330px;
     
 }
 
@@ -98,10 +103,11 @@ top: 156px;
 
 #MoTa
 {
+  height: fit-content;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
-  overflow: hidden;
+  overflow: clip;
   text-overflow: ellipsis;
 }
 

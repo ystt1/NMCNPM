@@ -16,9 +16,9 @@ const Home: React.FC = () => {
   const [randBooks2, setRandBooks2] = useState<any>([{}]);
   const [booksMostView, setBooksMostView] = useState<any>([{}]);
   const [booksNewest, setBooksNewest] = useState<any>([{}]);
-  const [booksMostLike,setBooksMostLike]=useState<any>([{}]);
-  
-  const { getBooks, getBookssortByLuotThue, getBookssortByNgayPhatHanh,getBookssortByLuotThich } = bookApi()
+  const [booksMostLike, setBooksMostLike] = useState<any>([{}]);
+
+  const { getBooks, getBookssortByLuotThue, getBookssortByNgayPhatHanh, getBookssortByLuotThich } = bookApi()
   const { getAthorWithId } = authorApi()
 
   const getListBooks = async () => {
@@ -55,7 +55,7 @@ const Home: React.FC = () => {
 
   const getListBooksMostLike = async () => {
     const res = await getBookssortByLuotThich();
-    
+
     if (res.data) {
       res.data.map(async (item: any) => {
         const author = await getAthorWithId(item.idTacGia)
@@ -65,7 +65,7 @@ const Home: React.FC = () => {
       })
     }
 
-    
+
     setBooksMostLike([...res.data])
   }
 
@@ -129,7 +129,7 @@ const Home: React.FC = () => {
 
   const onCLickBackBookMostViewed = () => {
     const flag = booksMostView;
-    setBooksMostView([flag[flag.length-1],...flag.slice(0, flag.length-1)])
+    setBooksMostView([flag[flag.length - 1], ...flag.slice(0, flag.length - 1)])
   }
 
 
@@ -140,7 +140,7 @@ const Home: React.FC = () => {
 
   const onCLickBackBookNewest = () => {
     const flag = booksNewest;
-    setBooksNewest([flag[flag.length-1],...flag.slice(0, flag.length-1)])
+    setBooksNewest([flag[flag.length - 1], ...flag.slice(0, flag.length - 1)])
   }
 
   return (
@@ -159,7 +159,11 @@ const Home: React.FC = () => {
                         <IonGrid>
                           <IonRow>
                             <IonCol size='3'>
-                              <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                            
+                              {item.Anh && item.Anh[0] ? (
+                                <img className='image' alt="Silhouette of mountains" src={item.Anh[0]} />
+                              ) : (
+                                <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />)}
                             </IonCol>
                             <IonCol className='MoTa'>
                               {item.MoTa}
@@ -178,19 +182,22 @@ const Home: React.FC = () => {
                   })}
 
                 </IonRow>
-                <IonRow >
-                  <IonCol size='2'> <IonIcon size='large' onClick={() => { onClickBackRandBook() }} icon={arrowBackCircleOutline}></IonIcon> </IonCol>
+                <IonRow style={{ height: '30px' }}>
+                  <IonCol size='2' > <IonIcon size='large' onClick={() => { onClickBackRandBook() }} icon={arrowBackCircleOutline}></IonIcon> </IonCol>
                   <IonCol size='9'></IonCol>
                   <IonCol size='1'><IonIcon size='large' onClick={() => { onClickNextRandBook() }} icon={arrowForwardCircleOutline}></IonIcon>
                   </IonCol></IonRow>
                 <IonRow >
                   {randBooks.slice(2, 4).map((item: any) => {
                     return <IonCol key={item.id}>
-                      <IonCard  routerLink={`/sach/${item.slug}`} className='card' >
+                      <IonCard routerLink={`/sach/${item.slug}`} className='card' >
                         <IonGrid>
                           <IonRow>
                             <IonCol size='4'>
-                              <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                            {item.Anh && item.Anh[0] ? (
+                                <img className='image' alt="Silhouette of mountains" src={item.Anh[0]} />
+                              ) : (
+                                <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />)}
                             </IonCol>
                             <IonCol className='MoTa2'>
                               {item.MoTa}
@@ -215,17 +222,22 @@ const Home: React.FC = () => {
               <IonCol className='sachyeuthich'><IonList>
                 <IonListHeader >
                   <IonLabel id='header'>
-                  Sách được yêu thích
+                    Sách được yêu thích
                   </IonLabel></IonListHeader>
-                {booksMostLike.map((item:any)=>{return (
-                  <IonItem  routerLink={`/sach/${item.slug}`} key={item.id}>
-                  <IonAvatar slot='start'>
-                  <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-                  </IonAvatar>
-                  <IonLabel id='label'>{item.Ten}</IonLabel>
-                </IonItem>
-                )})}
-                
+                {booksMostLike.map((item: any) => {
+                  return (
+                    <IonItem routerLink={`/sach/${item.slug}`} key={item.id}>
+                      <IonAvatar slot='start'>
+                      {item.Anh && item.Anh[0] ? (
+                                <img  className='avatar' alt="Silhouette of mountains" src={item.Anh[0]} />
+                              ) : (
+                                <img className='avatar' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />)}
+                      </IonAvatar>
+                      <IonLabel id='label'>{item.Ten}</IonLabel>
+                    </IonItem>
+                  )
+                })}
+
               </IonList>
               </IonCol>
             </IonRow>
@@ -241,22 +253,25 @@ const Home: React.FC = () => {
                 <IonGrid id='grid'>
                   <IonRow>
                     <IonCol size='12'>
-                    <IonLabel id='label'>
-                      Hot
-                    </IonLabel>
+                      <IonLabel id='label'>
+                        Hot
+                      </IonLabel>
                     </IonCol>
                   </IonRow>
                   <IonRow>
                     <IonCol id='icon' size='0.5'>
-                      <IonIcon onClick={()=>{onCLickBackBookMostViewed()}} icon={arrowBackCircleOutline}></IonIcon>
+                      <IonIcon onClick={() => { onCLickBackBookMostViewed() }} icon={arrowBackCircleOutline}></IonIcon>
                     </IonCol>
                     {booksMostView.slice(0, 2).map((item: any) => {
                       return <IonCol size='5.5' key={item.id}>
-                        <IonCard  routerLink={`/sach/${item.slug}`} id='card'>
+                        <IonCard routerLink={`/sach/${item.slug}`} id='card'>
                           <IonGrid>
                             <IonRow>
                               <IonCol size='5.5'>
-                                <img id='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
+                              {item.Anh && item.Anh[0] ? (
+                                <img className='image' alt="Silhouette of mountains" src={item.Anh[0]} />
+                              ) : (
+                                <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />)}
                               </IonCol>
                               <IonCol id='MoTa'>
                                 {item.MoTa}
@@ -289,51 +304,54 @@ const Home: React.FC = () => {
 
 
               <IonCol size='6'>
-              <IonGrid id='grid'>
-              <IonRow>
+                <IonGrid id='grid'>
+                  <IonRow>
                     <IonCol size='12'>
-                    <IonLabel id='label'>
-                      Sách Mới Ra
-                    </IonLabel>
+                      <IonLabel id='label'>
+                        Sách Mới Ra
+                      </IonLabel>
                     </IonCol>
                   </IonRow>
-                    <IonRow>  
-                      <IonCol id='icon' size='0.5'>
-                        <IonIcon onClick={()=>{onCLickBackBookNewest()}} icon={arrowBackCircleOutline}></IonIcon>
-                      </IonCol>
-                    {booksNewest.slice(0, 2).map((item: any) => {
-                    return <IonCol size='5.5' key={item.id}>
-                      <IonCard routerLink={`/sach/${item.slug}`} id='card'>
-                        <IonGrid>
-                          <IonRow>
-                            <IonCol size='5.5'>
-                              <img id='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />
-                            </IonCol>
-                            <IonCol id='MoTa'>
-                              {item.MoTa}
-                            </IonCol>
-                          </IonRow>
-                        </IonGrid>
-                        <IonCardHeader>
-                          <IonCardTitle>{item.Ten}
-                          </IonCardTitle>
-                          <IonRow>
-                            <IonCol>
-                            <IonCardSubtitle>{item.TacGia || "không rõ"}</IonCardSubtitle>
-                            </IonCol>
-                            <IonCol>
-                              <IonCardSubtitle>Lượt Thuê:{item.LuotThue}</IonCardSubtitle>
-                            </IonCol>
-                          </IonRow>          
-                        </IonCardHeader>
-                      </IonCard>
+                  <IonRow>
+                    <IonCol id='icon' size='0.5'>
+                      <IonIcon onClick={() => { onCLickBackBookNewest() }} icon={arrowBackCircleOutline}></IonIcon>
                     </IonCol>
-                  })}
-                  <IonCol size='0.5' id='icon'>
-                        <IonIcon onClick={()=>{onCLickNextBookNewest()}} icon={arrowForwardCircleOutline}></IonIcon>
+                    {booksNewest.slice(0, 2).map((item: any) => {
+                      return <IonCol size='5.5' key={item.id}>
+                        <IonCard routerLink={`/sach/${item.slug}`} id='card'>
+                          <IonGrid>
+                            <IonRow>
+                              <IonCol size='5.5'>
+                              {item.Anh && item.Anh[0] ? (
+                                <img className='image' alt="Silhouette of mountains" src={item.Anh[0]} />
+                              ) : (
+                                <img className='image' alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/card-media.png" />)}
+                              </IonCol>
+                              <IonCol id='MoTa'>
+                                {item.MoTa}
+                              </IonCol>
+                            </IonRow>
+                          </IonGrid>
+                          <IonCardHeader>
+                            <IonCardTitle>{item.Ten}
+                            </IonCardTitle>
+                            <IonRow>
+                              <IonCol>
+                                <IonCardSubtitle>{item.TacGia || "không rõ"}</IonCardSubtitle>
+                              </IonCol>
+                              <IonCol>
+                                <IonCardSubtitle>Lượt Thuê:{item.LuotThue}</IonCardSubtitle>
+                              </IonCol>
+                            </IonRow>
+                          </IonCardHeader>
+                        </IonCard>
                       </IonCol>
-                    </IonRow>
-                  </IonGrid>
+                    })}
+                    <IonCol size='0.5' id='icon'>
+                      <IonIcon onClick={() => { onCLickNextBookNewest() }} icon={arrowForwardCircleOutline}></IonIcon>
+                    </IonCol>
+                  </IonRow>
+                </IonGrid>
               </IonCol>
               <IonCol>
               </IonCol>
