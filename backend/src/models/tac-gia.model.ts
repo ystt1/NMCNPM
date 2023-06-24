@@ -15,6 +15,12 @@ export class TacGia extends Entity {
   })
   Ten: string;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  slug: string;
+
 
   constructor(data?: Partial<TacGia>) {
     super(data);

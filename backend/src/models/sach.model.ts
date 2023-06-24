@@ -73,6 +73,18 @@ export class Sach extends Entity {
   })
   LuotThich?: number;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  slug: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+    default:["https://ionicframework.com/docs/img/demos/card-media.png","https://ionicframework.com/docs/img/demos/card-media.png"]
+  })
+  Anh?: string[];
 
   constructor(data?: Partial<Sach>) {
     super(data);

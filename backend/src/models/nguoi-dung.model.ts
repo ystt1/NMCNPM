@@ -51,6 +51,8 @@ export class NguoiDung extends Entity {
   })
   SachDaThich?: string[];
 
+ 
+
 
   constructor(data?: Partial<NguoiDung>) {
     super(data);

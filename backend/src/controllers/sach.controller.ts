@@ -3,8 +3,9 @@ import {
   CountSchema,
   Filter,
   FilterExcludingWhere,
+  Order,
   repository,
-  Where,
+  Where
 } from '@loopback/repository';
 import {
   post,
@@ -73,6 +74,18 @@ export class SachController {
   async find(
     @param.filter(Sach) filter?: Filter<Sach>,
   ): Promise<Sach[]> {
+    //
+    // const orderBy: Sort<Order<Sach>>[] = [{
+    //   field: 'LuotThue',
+    //   direction: 'desc',
+    // }];
+    // const where: object = filter?.where ?? {};
+    // const newFilter = {
+    //   ...filter,
+    //   where,
+    //   order: orderBy,
+    // };
+    //
     return this.sachRepository.find(filter);
   }
 

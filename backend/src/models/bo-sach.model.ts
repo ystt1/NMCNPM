@@ -15,6 +15,12 @@ export class BoSach extends Entity {
   })
   Ten: string;
 
+  @property({
+    type: 'string',
+    required: true,
+  })
+  slug: string;
+
 
   constructor(data?: Partial<BoSach>) {
     super(data);
