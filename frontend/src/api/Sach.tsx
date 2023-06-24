@@ -22,16 +22,7 @@ export const bookApi = () => {
         return result;
     }
 
-    const uploadBook = async (book: any): Promise<any> => {
-        const result = await api.post('/', book)
-            .then(res => {
-                return res;
-            })
-            .catch(error => {
-                return error;
-            })
-        return result;
-    }
+   
 
     const getBookssortByLuotThue = async (): Promise<any> => {
         const resul = await api.get('?filter=%7B%0A%20%20%22limit%22%3A%206%2C%0A%0A%20%20%22order%22%3A%20%22LuotThue%20DESC%22%0A%20%20%0A%7D')
@@ -228,6 +219,23 @@ export const bookApi = () => {
 
 
 
+    const uploadBook=async(book:any)=>{
+        const flag=await getBookWithSlug(book.slug)
+        if(flag.data.length==0)
+        {const res=await api.post('/',book)
+        .then(resul=>{
+            return resul
+        })
+        .catch(error=>{
+            return error;
+        })
+        return res;
+    }
+    return false
+    }
+
+
+
     return {
         getBooks,
         getBookssortByLuotThue,
@@ -238,7 +246,8 @@ export const bookApi = () => {
         getLength,
         uploadBook,
         searchingBookWithAuthorSlug,
-        getLengthWithAuthor
+        getLengthWithAuthor,
+        
     }
 }
 export default bookApi;

@@ -1,32 +1,17 @@
 import axios from 'axios'
-import { book } from 'ionicons/icons';
+import { book, idCard } from 'ionicons/icons';
+import { useEffect, useState } from 'react';
+import { authorApi } from "./TacGia";
 
-export const authorApi=()=>{
-    const api=axios.create({
-        baseURL:'http://localhost:3000/tacgia'
+export const boSachApi = () => {
+
+    const api = axios.create({
+        baseURL: 'http://localhost:3000/bo-saches'
     })
-    
-    const getAuthor= async():Promise<any>=>{
-        const result= await api.get('/');
-        return result;
-    }
 
-    const getAthorWithId=async(id:string):Promise<any>=>{
-        const resul=await api.get(`/${id}`)
-        .then(res=>{
-            return res;
-        })
-        .catch(error=>{
-            
-            return false;
-        })
-        
-        return resul;
-    }
-
-    const getAuthorLike=async(key:string)=>{
+    const getBoSachLike=async(key:string)=>{
         const resul=await api.get(`?filter={"where": { "Ten":{"like":"${key}","options":"i"}}}`)
-        
+
         .then(res=>{         
             return res;
         })
@@ -39,7 +24,7 @@ export const authorApi=()=>{
     }
 
 
-    const getAuthorWithSlug=async(slug:string)=>{
+    const getBoSachWithSlug=async(slug:string)=>{
         const resul=await api.get(`?filter={
             "where": {
               "slug":"${slug}"
@@ -57,9 +42,8 @@ export const authorApi=()=>{
         return resul;
     }
 
-
-    const UpLoadAuthor=async(author:any)=>{
-        const flag=await getAuthorWithSlug(author.slug)
+    const UpLoadBoSach=async(author:any)=>{
+        const flag=await getBoSachWithSlug(author.slug)
         if(flag.data.length==0)
         {const res=await api.post('/',author)
         .then(resul=>{
@@ -73,9 +57,11 @@ export const authorApi=()=>{
     return false
     }
 
+    
+
 
     return {
-        getAuthor,getAthorWithId,getAuthorLike,getAuthorWithSlug,UpLoadAuthor
+        getBoSachLike,UpLoadBoSach
     }
 }
-export default authorApi;
+export default boSachApi;

@@ -1,11 +1,16 @@
-import { IonButton, IonContent, IonDatetime, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonTextarea, IonTitle, IonToolbar } from '@ionic/react';
-import React, { ChangeEvent, useState } from 'react';
+import { IonButton, IonContent, IonDatetime, IonGrid, IonHeader, IonInput, IonItem, IonLabel, IonPage, IonTextarea, IonTitle, IonToolbar, useIonAlert } from '@ionic/react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import axios from 'axios';
 import{bookApi} from '../api/Sach'
 import { error } from 'console';
+import AuthorModal from '../components/ModalAuthor';
+import BoSachModal from '../components/BoSachModal';
+import unidecode from 'unidecode';
 
 const Admin: React.FC = () => {
     const {uploadBook}=bookApi();
+    const [open, setOpen] = useState(false);
+    const [modalBoSach, setModalBoSach] = useState(false);
     const [book, setBook] = useState<any>({
         Ten: '',
         SoLuong: 0,
@@ -22,13 +27,48 @@ const Admin: React.FC = () => {
         Anh: [],
     });
 
-
-
-
+    const[tacGia,setTacGia]=useState<any>({});
+    const[boSach,setBoSach]=useState<any>({});
     const [selectedFiles, setSelectedFiles] = useState<any>([]);
+    const [alert]=useIonAlert()
+    const [presentAlert]=useIonAlert()
     const handleSubmit = () => {
         handleUpload()
     }
+
+    
+    useEffect(()=>{
+        if(tacGia.Ten && tacGia.id)
+        {
+        setBook({...book,idTacGia:tacGia.id})
+        }
+        
+    },[tacGia])
+
+    useEffect(()=>{
+        if(boSach.Ten && boSach.id)
+        {
+        setBook({...book,idBoSach:boSach.id})
+        }
+        
+    },[boSach])
+
+    useEffect(()=>{
+        const flag=slugify(book.Ten)
+        {
+            setBook({...book,slug:flag})
+        }
+    },[book.Ten])
+
+    const slugify = (str: string) => {
+        str = unidecode(str)
+        str = str.replace(/^\s+|\s+$/g, '');
+        str = str.toLowerCase();
+        str = str.replace(/[^a-z0-9 -]/g, '')
+        str = str.replace(/\s+/g, '-');
+        str = str.replace(/-+/g, '-');
+        return str;
+      }
 
     const handleFileChange = (event: any) => {
         const files = event.target.files;
@@ -43,6 +83,38 @@ const Admin: React.FC = () => {
 
 
     const handleUpload = async () => {
+        if(book.Ten && book.SoLuong && book.NXB && book.MoTa && book.Gia &&book.NgayPhatHanh && book.slug)
+        {
+            alert({
+                header: 'Thông Báo',
+                message: `Bạn có chắc muốn thêm Sách ${book.Ten} ?!`,
+                buttons: [{
+                  text: 'Cancel',
+                  role: 'cancel',
+        
+                },
+                {
+                  text: 'OK',
+                  role: 'confirm',
+                  handler: () => {
+                    UploadNewBook()
+                  },
+                },],
+              })
+        }
+        else{
+            alert({
+                header: 'Thông Báo',
+                message: 'Bạn chưa nhập đầy đủ thông tin!',
+                buttons: ['OK'],
+              })
+        }
+        
+        
+    };
+
+    const UploadNewBook=async()=>{
+
         const promises: any = [];
         for (const file of selectedFiles) {
             const data = new FormData();
@@ -57,14 +129,38 @@ const Admin: React.FC = () => {
               );
               promises.push(response.data.data.url);
             } catch (error) {
-              console.error(error);
+              console.log(error);
+              
             }
           }  
           const urls = await Promise.all(promises);
         await setBook({ ...book, Anh: urls })
         const res=await uploadBook({ ...book, Anh: urls });
-        console.log(res);  
-    };
+        if (!res) {
+            presentAlert({
+              header: 'Thông báo',
+              message: 'Tên bạn nhập có thể dẫn đến trùng dữ liệu vui lòng đổi tên khác',
+              buttons: ['OK'],
+            })
+      
+          }
+          else{
+        if(res.status)
+        {
+            presentAlert({
+                header: 'Thông báo',
+                message: 'Thêm sách thành công',
+                buttons: ['OK'],
+              })
+        }
+        else{
+            presentAlert({
+                header: 'Thông báo',
+                message: 'Thêm sách thất bại',
+                buttons: ['OK'],
+              })
+        }}
+    }
 
     return (
         <IonPage>
@@ -78,80 +174,72 @@ const Admin: React.FC = () => {
                 
                     <IonInput
                         value={book.Ten}
-                        placeholder="Tên sách"
+                        label='Tên Sách' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, Ten: e.target.value })}
                         required
                     />
                     <IonInput
                         type="number"
                         value={book.SoLuong}
-                        placeholder="Số lượng"
+                        label='Số Lượng' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, SoLuong: Number(e.target.value) })}
                         required
                     />
                     <IonInput
                         value={book.NXB}
-                        placeholder="Nhà xuất bản"
+                        label='Nhà xuất bản' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, NXB: e.target.value })}
                         required
                     />
                     <IonTextarea
                         value={book.MoTa}
-                        placeholder="Mô tả"
+                        label='Mô tả' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, MoTa: e.target.value })}
                         required
                     />
                     <IonInput
                         value={book.Gia}
-                        placeholder="Giá"
+                        label='Giá' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, Gia: e.target.value })}
                         required
                     />
                     <IonInput
                         type="number"
                         value={book.TinhTrang}
-                        placeholder="Tình trạng"
+                        label='Tình trạng' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, TinhTrang: Number(e.target.value) })}
                         required
                     />
+                    
+                        <IonLabel>Ngày phát hành</IonLabel>
                     <IonDatetime
                         value={book.NgayPhatHanh}
-                        placeholder="Ngày phát hành"
+                        
                         onIonChange={(e) => setBook({ ...book, NgayPhatHanh: e.target.value })}
 
                     />
+                    
                     <IonInput
                         type="number"
                         value={book.LuotThue}
-                        placeholder="Lượt thuê"
+                        label='Lượt thuê' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, LuotThue: Number(e.target.value) })}
                         required
                     />
-                    <IonInput
-                        value={book.idTacGia}
-                        placeholder="ID tác giả"
-                        onIonChange={(e) => setBook({ ...book, idTacGia: e.target.value })}
-                        
-                    />
-                    <IonInput
-                        value={book.idBoSach}
-                        placeholder="ID bộ sách"
-                        onIonChange={(e) => setBook({ ...book, idBoSach: e.target.value })}
-                        
-                    />
+                    <IonButton expand="block" onClick={() => setOpen(!open)}>
+         { tacGia.Ten||"Chọn Tác Giả"}
+        </IonButton>
+        <IonButton expand="block" onClick={() => setModalBoSach(!modalBoSach)}>
+         { boSach.Ten||"Chọn Bộ Sách"}
+        </IonButton>
                     <IonInput
                         type="number"
                         value={book.LuotThich}
-                        placeholder="Lượt thích"
+                        label='Lượt thích' labelPlacement="stacked"
                         onIonChange={(e) => setBook({ ...book, LuotThich: Number(e.target.value) })}
                         required
                     />
-                    <IonInput
-                        value={book.slug}
-                        placeholder="Slug"
-                        onIonChange={(e) => setBook({ ...book, slug: e.target.value })}
-                        required
-                    />
+
                     <input
                         type="file"
                         accept="image/jpeg, image/jpg"
@@ -160,8 +248,9 @@ const Admin: React.FC = () => {
                     />
                     <IonButton onClick={handleSubmit}>Lưu</IonButton>
                 </form>
-
             </IonContent>
+            <AuthorModal setTacGia={setTacGia} isOpen={open} onClose={()=>{setOpen(!open)}}></AuthorModal>
+            <BoSachModal setBoSach={setBoSach} isOpen={modalBoSach} onClose={()=>{setModalBoSach(!modalBoSach)}}></BoSachModal>
         </IonPage>
     )
 };

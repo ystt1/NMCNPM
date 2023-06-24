@@ -9,7 +9,7 @@ const HeaderComp: React.FunctionComponent = () => {
     const [searchValue,setSearchValue]=useState('');
     const history = useHistory();
     const pageNumber=1;
-
+    
     return (
         <IonHeader className='header' >
         <IonGrid>

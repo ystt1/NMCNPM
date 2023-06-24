@@ -34,7 +34,6 @@ top: 150px;
     white-space: pre-wrap;
     word-wrap: break-all;
     font-size: larger;
-    align-content: center;
 }
 
 #img{
@@ -52,6 +51,9 @@ top: 150px;
 
 #thichthue{
   border-top: 20px;
+}
+#MoTa{
+  height: 100px;
 }
 } 
 
@@ -89,7 +91,7 @@ top: 156px;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 8;
-  overflow: auto;
+  overflow: scroll;
   text-overflow: ellipsis;
 }
 

@@ -135,10 +135,12 @@ const Detail: React.FC = () => {
                             </IonRow>
                             </IonGrid>
                         </IonCol >
-                        <IonCol>
+                        <IonCol id='MoTa'>
                            <h1 style={{marginTop:10 }}>Mô tả</h1>
-                            <IonText id='label' className='wrap'>  
-                            {bookFound.MoTa||"Mô tả"}                    
+                            <IonText id='label' className='wrap'> 
+                            
+                            {bookFound.MoTa||"Mô tả"} 
+                                             
                             </IonText>
                         </IonCol>
                     </IonRow>

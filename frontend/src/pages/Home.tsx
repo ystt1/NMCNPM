@@ -84,7 +84,7 @@ const Home: React.FC = () => {
       for (let i = 0; i < 4; i++) {
         const randomNumber = Math.floor(Math.random() * flagbooks.length);
         const randomItem = flagbooks.slice(randomNumber, randomNumber + 1)[0];
-        getAu(randomItem)
+        getAu(randomItem,0)
         resul.push(randomItem);
         flagbooks.splice(randomNumber, 1);
       }
@@ -92,7 +92,7 @@ const Home: React.FC = () => {
       for (let i = 0; i < 4; i++) {
         const randomNumber = Math.floor(Math.random() * flagbooks.length);
         const randomItem = flagbooks.slice(randomNumber, randomNumber + 1)[0];
-        getAu(randomItem)
+        getAu(randomItem,1)
         resul2.push(randomItem);
         flagbooks.splice(randomNumber, 1);
       }
@@ -100,13 +100,22 @@ const Home: React.FC = () => {
     }
   }, [books]);
 
-  const getAu = async (randomItem: any) => {
+  
+
+  const getAu = async (randomItem: any,num:number) => {
     const author = await getAthorWithId(randomItem.idTacGia)
     if (author != false) {
       const newData = { ...randomItem, TacGia: author.data.Ten };
+      if(num==0){
       setRandBooks((prev: any) =>
         prev.map((item: any) => (item.id === randomItem.id ? newData : item))
+      );}
+      else
+      {
+        setRandBooks2((prev: any) =>
+        prev.map((item: any) => (item.id === randomItem.id ? newData : item))
       );
+      }
     }
   }
 
